@@ -16,7 +16,11 @@ float[] uiLinesY2 = {25, 5, 5, 25, 25, 5, 5, 25, 4, 4, 5, 5, 55, 55};
 
 PFont font;
 
-float transiton = 600;
+boolean AsteroidsStart;
+boolean transition2Enabled;
+
+float transiton1 = 600;
+float transiton2 = 0;
 
 int rock = 15;
 
@@ -27,6 +31,7 @@ float[] rSize = new float[rock];
 
 void setup()
 {
+  frameRate(60);
   size(1000, 1000);
   font = loadFont("OCRAExtended-48.vlw");
   textFont(font);
@@ -51,7 +56,7 @@ void draw()
 {
   
     bGround();
-    //asteroids();
+    asteroids();
     spaceShip();
     UI();
     clock();
@@ -85,6 +90,15 @@ void bGround()
   
 void asteroids()
 {
+  
+  if (mins == 1 && stens == 1 && frameCount/60 == 7){
+    AsteroidsStart = true;
+  }
+  if (mins == 1 && stens == 4 && frameCount/60 == 9){
+    AsteroidsStart = false;
+  }
+  
+  if (AsteroidsStart == true){
     for(int i = 0 ; i < rock ; i ++)
   {
     ellipse(rx[i], ry[i], rSize[i], rSize[i]);
@@ -97,6 +111,8 @@ void asteroids()
       rSize[i] = random(25, 40);
     }
   }
+  }
+  
 }
 
 void spaceShip()
@@ -126,11 +142,11 @@ void spaceShip()
      textSize(69);
      fill(255);
      
-     if (transiton > 2){
+     if (transiton1 > 2){
        frameCount = 0;
      }
      
-     if (transiton < 2){
+     if (transiton1 < 2){
      
      if (frameCount > 599) {
        frameCount -= 599;
@@ -151,18 +167,30 @@ void spaceShip()
      text(":", 845, 87);
      text(frameCount/60, 905, 87); //secs
      text(stens, 870, 87); //stens
-     text(mins, 780, 87); //mins
-     text(mtens, 815, 87); //mtens
+     text(mins, 815, 87); //mins
+     text(mtens, 780, 87); //mtens
    }
    
    
    void transitions()
    {
-     fill (0, 0, 0, transiton);
+     fill (0, 0, 0, transiton1);
+     if (transition2Enabled == true){
+     fill (0, 0, 0, transiton2);
+     }
      noStroke();
      rect (0, 0, 1000, 1000);
      
-     if (transiton > 1) {
-       transiton -= 5;
-     }
+     if (frameCount/60 < 7){
+     if (transiton1 > 1){
+     transiton1 -= 5;
+       }
+  }
+     
+    if (mins == 2 && stens == 4 && frameCount/60 == 5){
+    if (transiton2 < 255){
+    transition2Enabled = true;
+    transiton2 += 5;
+       }
+  }
    }
