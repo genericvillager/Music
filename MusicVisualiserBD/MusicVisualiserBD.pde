@@ -29,10 +29,27 @@ float[] ry = new float[rock];
 float[] rspeed = new float[rock];
 float[] rSize = new float[rock];
 
+//Planet obj & Images
+
+PShape Planet1;
+PShape Planet2;
+
+//Planet Images in Jpg this will refer to when we link it to the obj files
+PImage Mercury;
+PImage Venus;
+PImage Earth;
+PImage Mars;
+PImage Jupiter;
+PImage Saturn;
+PImage Uranus;
+PImage Neptune;
+//for the planet to push -X axis
+float pPush;
+
 void setup()
 {
   frameRate(60);
-  size(1000, 1000);
+  size(1000, 1000, P3D);
   font = loadFont("OCRAExtended-48.vlw");
   textFont(font);
   for(int i = 0 ; i < star ; i ++)
@@ -49,6 +66,19 @@ void setup()
     ry[i] = random(0, height);
     rspeed[i] = random(1, 2);
     rSize[i] = random(25, 40);
+    
+   //Planet Inputs
+  //Images
+  Mercury = loadImage("Images/Mercury.jpg");
+  Venus = loadImage("Images/Venus.jpg");
+  //Obj files
+  Planet1 = loadShape("OBJ/PlanetHead.obj");
+  Planet2 = loadShape("OBJ/Planet1.obj");
+  
+  Planet2.setTexture(Venus);
+  Planet1.setTexture(Mercury);
+
+
   }
 }
 
@@ -57,6 +87,7 @@ void draw()
   
     bGround();
     asteroids();
+    //Planet(); //WIP
     spaceShip();
     UI();
     clock();
@@ -114,6 +145,32 @@ void asteroids()
   }
   
 }
+
+
+
+void Planet()//Still testing with the appearing 
+   {
+    pPush -= 1f;// the speed of the planet in the X axis
+    
+    pushMatrix();//Mecury
+    fill(100,100,100);
+    translate(1000, height/2);
+    shape(Planet1, pPush, 250, 200, 200 );
+    Planet1.rotateY(-0.01f);
+    Planet1.rotateX(0.01f);
+    popMatrix();
+    
+    pushMatrix();
+    fill(100,100,100);
+    translate(1000, height/2);
+    shape(Planet2, pPush, -250, 200, 200 );
+    Planet2.rotateY(-0.01f);
+    Planet2.rotateX(0.01f);
+    
+    popMatrix();
+     
+   }
+
 
 void spaceShip()
   {
