@@ -73,7 +73,7 @@ void setup()
   Venus = loadImage("Images/Venus.jpg");
   //Obj files
   Planet1 = loadShape("OBJ/PlanetHead.obj");
-  Planet2 = loadShape("OBJ/Planet1.obj");
+  Planet2 = loadShape("OBJ/planet.obj");
   
   Planet2.setTexture(Venus);
   Planet1.setTexture(Mercury);
@@ -87,7 +87,7 @@ void draw()
   
     bGround();
     asteroids();
-    //Planet(); //WIP
+    Planet(); //WIP
     spaceShip();
     UI();
     clock();
@@ -154,7 +154,7 @@ void Planet()//Still testing with the appearing
     
     pushMatrix();//Mecury
     fill(100,100,100);
-    translate(1000, height/2);
+    translate(2000, height/2);
     shape(Planet1, pPush, 250, 200, 200 );
     Planet1.rotateY(-0.01f);
     Planet1.rotateX(0.01f);
@@ -162,11 +162,10 @@ void Planet()//Still testing with the appearing
     
     pushMatrix();
     fill(100,100,100);
-    translate(1000, height/2);
+    translate(4000, height/2);
     shape(Planet2, pPush, -250, 200, 200 );
-    Planet2.rotateY(-0.01f);
-    Planet2.rotateX(0.01f);
-    
+    Planet2.rotateY(0.01f);
+    Planet2.rotateX(-0.01f);
     popMatrix();
      
    }
