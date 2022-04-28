@@ -1,3 +1,10 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
 int star = 10;
 
 int stens = 0;
@@ -30,7 +37,9 @@ float[] ry = new float[rock];
 float[] rspeed = new float[rock];
 float[] rSize = new float[rock];
 
-
+Minim minim;
+AudioPlayer ap;
+AudioBuffer ab;
 
 void setup()
 {
@@ -53,6 +62,12 @@ void setup()
     rspeed[i] = random(2, 3);
     rSize[i] = random(25, 40);
   }
+  
+  minim = new Minim(this);
+  ap = minim.loadFile("MusicVisualiserAudio.mp3",1024);
+  ap.play();
+  ab = ap.mix;
+  
 }
 
 void draw()
