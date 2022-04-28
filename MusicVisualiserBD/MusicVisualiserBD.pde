@@ -22,7 +22,8 @@ boolean transition2Enabled;
 float transiton1 = 600;
 float transiton2 = 0;
 
-int rock = 15;
+float time;
+int rock = 16;
 
 float[] rx = new float[rock];
 float[] ry = new float[rock];
@@ -47,14 +48,10 @@ void setup()
 
   for(int i = 0 ; i < rock ; i ++)
   {
-    rx[i] = random(0, width);
+    rx[i] = random(0, 1010);
     ry[i] = random(0, height);
-    rspeed[i] = random(1, 2);
+    rspeed[i] = random(2, 3);
     rSize[i] = random(25, 40);
-    
-
-
-
   }
 }
 
@@ -96,29 +93,27 @@ void bGround()
   
 void asteroids()
 {
-  
-  if (mins == 1 && stens == 1 && frameCount/60 == 7){
-    AsteroidsStart = true;
-  }
-  if (mins == 1 && stens == 4 && frameCount/60 == 9){
-    AsteroidsStart = false;
-  }
-  
-  if (AsteroidsStart == true){
-    for(int i = 0 ; i < rock ; i ++)
+  if (mins == 1 && stens == 1 && frameCount/60 == 7 || AsteroidsStart == true)
   {
-    ellipse(rx[i], ry[i], rSize[i], rSize[i]);
-    rx[i] -= rspeed[i];
-    if (rx[i] < -10)
+    AsteroidsStart = true;
+    for(int i = 0 ; i < rock; i ++)
     {
-      rx[i] = width;
-      ry[i] = random(0, height);
-      rspeed[i] = random(1, 2);
-      rSize[i] = random(25, 40);
+      ellipse(rx[i], ry[i], rSize[i], rSize[i]);
+      rx[i] -= rspeed[i];
+      if (rx[i] < -10)
+      {
+        rx[i] = 1010;
+        ry[i] = random(0, height);
+        rspeed[i] = random(2, 3);
+        rSize[i] = random(25, 40);
+      }
     }
   }
-  }
   
+  if (mins == 1 && stens == 4 && frameCount/60 == 9)
+  {
+    AsteroidsStart = false;
+  }
 }
 
 
