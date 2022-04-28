@@ -34,7 +34,7 @@ float[] rSize = new float[rock];
 void setup()
 {
   frameRate(60);
-  size(1000, 1000, P3D);
+  size(1000, 1000);
   font = loadFont("OCRAExtended-48.vlw");
   textFont(font);
   for(int i = 0 ; i < star ; i ++)
