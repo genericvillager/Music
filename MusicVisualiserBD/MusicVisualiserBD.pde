@@ -30,7 +30,7 @@ float transiton1 = 600;
 float transiton2 = 0;
 
 float time;
-int rock = 16;
+int rock = 25;
 
 float[] rx = new float[rock];
 float[] ry = new float[rock];
@@ -57,14 +57,14 @@ void setup()
 
   for(int i = 0 ; i < rock ; i ++)
   {
-    rx[i] = random(0, 1010);
+    rx[i] = random(-40, -990);
     ry[i] = random(0, height);
     rspeed[i] = random(2, 3);
     rSize[i] = random(25, 40);
   }
   
   minim = new Minim(this);
-  ap = minim.loadFile("MusicVisualiserAudio.mp3",1024);
+  ap = minim.loadFile("MusicVisualiserAudio.mp3",1000);
   ap.play();
   ab = ap.mix;
   
@@ -108,22 +108,27 @@ void bGround()
   
 void asteroids()
 {
-  if (mins == 1 && stens == 1 && frameCount/60 == 7 || AsteroidsStart == true)
+  if (mins == 1 && stens == 1 && frameCount/60 == 6 || AsteroidsStart == true)
   {
     AsteroidsStart = true;
+
+  }
+  
+  if (AsteroidsStart == true){
     for(int i = 0 ; i < rock; i ++)
     {
       ellipse(rx[i], ry[i], rSize[i], rSize[i]);
       rx[i] -= rspeed[i];
-      if (rx[i] < -10)
+      if (rx[i] < -100)
       {
-        rx[i] = 1010;
+        rx[i] = random(1100, 2100);
         ry[i] = random(0, height);
-        rspeed[i] = random(2, 3);
-        rSize[i] = random(25, 40);
+        rspeed[i] = random(4*stens, 5*stens);
+        rSize[i] = random(50, 75);
       }
     }
   }
+  
   
   if (mins == 1 && stens == 4 && frameCount/60 == 9)
   {
@@ -131,14 +136,12 @@ void asteroids()
   }
 }
 
-
-
-
-
-
 void spaceShip()
   {
-   
+    push();
+   translate(0, 0);
+   rect(375, 450, 300, 100);
+   pop();
   }
 
   void UI()
