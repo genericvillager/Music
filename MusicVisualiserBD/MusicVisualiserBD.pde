@@ -16,10 +16,10 @@ float[] sy = new float[star];
 float[] sSpeed = new float[star];
 float[] sSize = new float[star];
 
-float[] uiLinesX1 = {25, 25, 25, 25, 970, 950, 950, 970, 250, 625, 750, 750, 750, 960};
-float[] uiLinesX2 = {5, 25, 25, 5, 5, 25, 25, 5, 125, 125, 215, 215, 5, 5};
-float[] uiLinesY1 = {950, 975, 25, 25, 950, 975, 25, 25, 498, 498, 35, 90, 35, 35};
-float[] uiLinesY2 = {25, 5, 5, 25, 25, 5, 5, 25, 4, 4, 5, 5, 55, 55};
+float[] uiLinesX1 = {25, 25, 25, 25, 970, 950, 950, 970, 250, 625, 750, 750, 750, 960, 345, 650, 345, 345};
+float[] uiLinesX2 = {5, 25, 25, 5, 5, 25, 25, 5, 125, 125, 215, 215, 5, 5, 5, 5, 305, 305};
+float[] uiLinesY1 = {950, 975, 25, 25, 950, 970, 25, 25, 498, 498, 35, 90, 35, 35, 895, 895, 895, 950};
+float[] uiLinesY2 = {25, 5, 5, 25, 25, 5, 5, 25, 4, 4, 5, 5, 55, 55, 60, 60, 5, 5};
 
 PFont font;
 
@@ -28,6 +28,10 @@ boolean transition2Enabled;
 
 float transiton1 = 600;
 float transiton2 = 0;
+
+float lLine = 0;
+float lerpedLine = 0;
+float sum = 0;
 
 float time;
 int rock = 25;
@@ -86,7 +90,28 @@ void draw()
 void bGround()
   {
     background(0, 6, 13);
+    strokeWeight(2);
+    push();
+    translate(0, 870); 
+  
+  for(int i = 0; i < ab.size(); i++)
+  {
+    sum += abs(ab.get(i));
+    lLine= (height/3.3) + ab.get(i)*250;
+    lerpedLine = lerp(lerpedLine, lLine, 0.005f);
     stroke(255);
+    line(i,lerpedLine - height/4,i,lerpedLine - height/4);
+  }
+  pop();
+  
+    noStroke();
+  fill(0, 6, 13);
+  rect(0, 850, 350, 150); 
+  rect(650, 850, 350, 150);
+  rect(0, 0, 1000, 900);
+  rect(0, 950, 1000, 1000);
+  
+      stroke(255);
     fill(255);
     strokeWeight(1);
     
@@ -148,13 +173,14 @@ void spaceShip()
   {
     noStroke();
     fill(47, 170, 50);
-    for (int i = 0; i < 14; i ++)
+    for (int i = 0; i < 18; i ++)
     {
   rect(uiLinesX1[i], uiLinesY1[i], uiLinesX2[i], uiLinesY2[i]);
     }
-    
+ 
     fill(192, 324, 193, 123);
     rect (755, 40, 205, 50);
+    rect (350, 900, 300, 50);
   
     stroke(47, 170, 50);
     noFill();
