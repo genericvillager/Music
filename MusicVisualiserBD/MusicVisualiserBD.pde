@@ -41,6 +41,9 @@ float[] ry = new float[rock];
 float[] rspeed = new float[rock];
 float[] rSize = new float[rock];
 
+float x = 0;
+float x2 = 2;
+
 Minim minim;
 AudioPlayer ap;
 AudioBuffer ab;
@@ -78,6 +81,7 @@ void draw()
 {
   
     bGround();
+    planets();
     asteroids();
     spaceShip();
     UI();
@@ -243,4 +247,60 @@ void spaceShip()
     transiton2 += 5;
        }
   }
+  
+  
+   }
+   
+   void planets()
+   {
+     
+     
+    noStroke();
+    pushMatrix();
+    //Earth
+    fill(0,0,255);
+    circle(1000-x,height/2,2500-(2*x));
+    popMatrix();
+    
+    pushMatrix();
+    //Mars
+    fill(255,0,0);
+    circle(3200-(x*2),height/2,150);
+    popMatrix();
+    
+    pushMatrix();
+    //Jupiter
+    fill(255,178,102);
+    circle(4500-(x*2),height/2,1300);
+    popMatrix();
+    
+    pushMatrix();
+    //Saturn
+    fill(255,229,204);
+    circle(6300-(x*2),height/2,900);
+    popMatrix();
+    
+    pushMatrix();
+    //Uranus
+    fill(204,229,255);
+    circle(7700-(x*2), height/2, 450);
+    popMatrix();
+    
+    pushMatrix();
+    //Neptune
+    fill(0,102,204);
+    circle(8700-(x*2), height/2, 400);
+    popMatrix();
+    
+    pushMatrix();
+    //Pluto :)
+    fill(255,229,204);
+    circle(9450-(x*2), height/2, 25);
+    popMatrix();
+    
+    
+    fill(255,255,255);
+    stroke(1);
+    x = x+1;
+     
    }
