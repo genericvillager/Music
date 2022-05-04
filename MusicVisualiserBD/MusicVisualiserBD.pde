@@ -16,10 +16,10 @@ float[] sy = new float[star];
 float[] sSpeed = new float[star];
 float[] sSize = new float[star];
 
-float[] uiLinesX1 = {25, 25, 25, 25, 970, 950, 950, 970, 250, 625, 750, 750, 750, 960, 345, 650, 345, 345};
-float[] uiLinesX2 = {5, 25, 25, 5, 5, 25, 25, 5, 125, 125, 215, 215, 5, 5, 5, 5, 305, 305};
-float[] uiLinesY1 = {950, 975, 25, 25, 950, 970, 25, 25, 498, 498, 35, 90, 35, 35, 895, 895, 895, 950};
-float[] uiLinesY2 = {25, 5, 5, 25, 25, 5, 5, 25, 4, 4, 5, 5, 55, 55, 60, 60, 5, 5};
+float[] uiLinesX1 = {25, 25, 25, 25, 970, 950, 950, 970, 750, 750, 750, 960, 345, 650, 345, 345};
+float[] uiLinesX2 = {5, 25, 25, 5, 5, 25, 25, 5, 215, 215, 5, 5, 5, 5, 305, 305};
+float[] uiLinesY1 = {950, 975, 25, 25, 950, 970, 25, 25, 35, 90, 35, 35, 895, 895, 895, 950};
+float[] uiLinesY2 = {25, 5, 5, 25, 25, 5, 5, 25, 5, 5, 55, 55, 60, 60, 5, 5};
 
 PFont font;
 
@@ -27,7 +27,7 @@ boolean AsteroidsStart;
 boolean AsteroidsEnd;
 boolean transition2Enabled;
 boolean endScreen;
-boolean CubeStart;
+boolean engineStart;
 
 
 float transiton1 = 600;
@@ -53,25 +53,10 @@ Minim minim;
 AudioPlayer ap;
 AudioBuffer ab;
 
-
-float halfH;
-float colorInc;
-float lerpedAverage = 0;
-float[] lerpedBuffer = new float[1024];
-float angle;
-
-int cube = 25;
-
-float[] cx = new float[cube];
-float[] cy = new float[cube];
-float[] cspeed = new float[cube];
-float[] cSize = new float[cube];
-
-
 void setup()
 {
   frameRate(60);
-  size(1000, 1000, P3D);
+  size(1000, 1000);
   font = loadFont("OCRAExtended-48.vlw");
   textFont(font);
   for(int i = 0 ; i < star ; i ++)
@@ -91,31 +76,12 @@ void setup()
     rFill[i] = random(100, 180);
   }
   
-    for(int i = 0 ; i < cube ; i ++)
-  {
-    cx[i] = random(-40, -990);
-    cy[i] = random(0, height);
-    cspeed[i] = random(2, 3);
-    cSize[i] = random(25, 40);
-  }
   
   
   minim = new Minim(this);
   ap = minim.loadFile("MusicVisualiserAudio.mp3",1000);
   ap.play();
   ab = ap.mix;
-  
-   halfH = height/2;
-   colorInc= 255/(float)ab.size();
-
-  
-   int [] arr = {10, 15, 7, 9, 12, 17};
-   float sum = 0;
-   for(int i = 0; i< arr.length; i++)
-   {
-     sum += arr[i];
-   }
-   float average = sum / (float)arr.length;
   
 }
 
@@ -125,9 +91,7 @@ void draw()
     bGround();
     planets();
     asteroids();
-    cubefloat();
     spaceShip();
-
     UI();
     clock();
     transitions();
@@ -140,7 +104,7 @@ void bGround()
     background(0, 6, 13);
     strokeWeight(2);
     push();
-   translate(0, 870); 
+    translate(0, 870); 
   
   for(int i = 0; i < ab.size(); i++)
   {
@@ -152,8 +116,7 @@ void bGround()
   }
   pop();
   
-  
-  noStroke();
+    noStroke();
   fill(0, 6, 13);
   rect(0, 850, 350, 150); 
   rect(650, 850, 350, 150);
@@ -163,7 +126,6 @@ void bGround()
       stroke(255);
     fill(255);
     strokeWeight(1);
-
     
   
     for(int i = 0 ; i < star ; i ++)
@@ -179,7 +141,7 @@ void bGround()
       }
     }
   }
-
+  
   
 void asteroids()
 {
@@ -244,8 +206,50 @@ void asteroids()
 void spaceShip()
   {
     push();
-   translate(0, 0);
-   rect(375, 450, 300, 100);
+   translate((lerpedLine/4)-150, 0);
+   noStroke();
+    if (mins >= 0 && stens >= 0 && frameCount/60 >= 4.3){
+      engineStart = true;
+    }
+      
+      if (engineStart == true){
+    fill(255, 70, 20);
+    triangle(370, 480, 370, 520, 300 + random(-15, 15), 500 + random(-5, 5));
+    fill(255, 130, 20);
+    triangle(370, 470, 370, 490, 310 + random(-15, 15), 480 + random(-5, 5)); 
+    triangle(370, 530, 370, 510, 310 + random(-15, 15), 520 + random(-5, 5));
+    triangle(370, 510, 370, 490, 350 + random(-15, 15), 500 + random(-5, 5));
+      }
+    
+    fill(125);
+    circle(599, 500, 50);
+    fill(235);
+    stroke(235);
+    rect (375, 460, 150, 80); 
+    triangle (525, 460, 600, 475, 525, 520);
+    triangle (525, 540, 600, 525, 525, 480);
+    circle(595, 500, 50);
+    circle(555, 500, 50);
+    triangle (500, 460, 440, 420, 440, 460);
+    triangle (440, 420, 440, 460, 400, 375);
+    triangle (375, 460, 375, 380, 400, 375);
+    triangle (375, 460, 400, 375, 450, 460);
+    triangle (500, 540, 440, 580, 440, 540);
+    triangle (440, 580, 440, 540, 400, 625);
+    triangle (375, 540, 375, 620, 400, 625);
+    triangle (375, 540, 400, 625, 450, 540);
+    noStroke();
+    fill(75);
+    rect(355, 465, 20, 70);
+    fill(125);
+    triangle(375, 460, 500, 460, 490, 453);
+    triangle(375, 540, 500, 540, 490, 547);
+    triangle (365, 500, 395, 495, 400, 500);
+    triangle (365, 500, 395, 505, 400, 500);
+    fill(100, 155, 255);
+    rect(600, 490, 10, 20);
+    triangle (600, 490, 610, 490, 595, 480);
+    triangle (600, 510, 610, 510, 595, 520);
    pop();
   }
 
@@ -253,7 +257,7 @@ void spaceShip()
   {
     noStroke();
     fill(47, 170, 50);
-    for (int i = 0; i < 18; i ++)
+    for (int i = 0; i < 16; i ++)
     {
   rect(uiLinesX1[i], uiLinesY1[i], uiLinesX2[i], uiLinesY2[i]);
     }
@@ -264,8 +268,6 @@ void spaceShip()
   
     stroke(47, 170, 50);
     noFill();
-    strokeWeight(5);
-    circle (500, 500, 60);
   }
 
    void clock() {
@@ -301,8 +303,7 @@ void spaceShip()
      text(mtens, 780, 87); //mtens
    }
    
-      
-      void planets()
+   void planets()
    {
      
      
@@ -310,12 +311,13 @@ void spaceShip()
     pushMatrix();
     //Earth
     fill(0,0,255);
-    circle(1000-x,height/2,2500-(2*x));
+    circle(1000-(2*x),height/2,2700-(1.6*x));
     popMatrix();
     
     pushMatrix();
     //Mars
     fill(255,0,0);
+    
     circle(3200-(x*2),height/2,190);
     popMatrix();
     
@@ -381,46 +383,3 @@ void spaceShip()
      text("Thanks for watching!", width/2 - 400, height/2);
      }
    }
-   
-   
-   void cubefloat(){
-    if (mins == 1 && stens == 5 && frameCount/60 == 0 || CubeStart == true)
-  {
-    CubeStart = true;
-
-  }  
-  
-  if( CubeStart == true) {
-    for(int i = 0 ; i < cube ; i ++)
-
-    {
-
-      pushMatrix();
-      stroke(255);
-      stroke(colorInc * i, 255, 255);
-      noFill();
-      translate(cx[i], cy[i]);
-      rotateY(radians(angle));
-      rotateZ(radians(angle));
-      rotateX(radians(angle));
-      box(rSize[i]);
-      cx[i] -= rspeed[i];
-      if (cx[i] < -100)
-      {
-        cx[i] = random(1100, 4100);
-        cy[i] = random(0, height);
-        cspeed[i] = random(4*stens, 5*stens);
-        cSize[i] = random(50, 75);
-      }
-      angle+=.01;
-      popMatrix(); 
-   }
-
-  } 
-  
-    if (mins == 2 && stens == 3 && frameCount/60 == 3)
-  {
-    CubeStart = false;
-  }
-}
-   
