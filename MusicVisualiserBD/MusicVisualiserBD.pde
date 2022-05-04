@@ -26,6 +26,8 @@ PFont font;
 boolean AsteroidsStart;
 boolean AsteroidsEnd;
 boolean transition2Enabled;
+boolean endScreen;
+
 
 float transiton1 = 600;
 float transiton2 = 0;
@@ -41,6 +43,7 @@ float[] rx = new float[rock];
 float[] ry = new float[rock];
 float[] rspeed = new float[rock];
 float[] rSize = new float[rock];
+float [] rFill = new float[rock];
 
 float x = 0;
 float x2 = 2;
@@ -69,7 +72,10 @@ void setup()
     ry[i] = random(0, height);
     rspeed[i] = random(2, 3);
     rSize[i] = random(25, 40);
+    rFill[i] = random(100, 180);
   }
+  
+  
   
   minim = new Minim(this);
   ap = minim.loadFile("MusicVisualiserAudio.mp3",1000);
@@ -138,6 +144,9 @@ void bGround()
   
 void asteroids()
 {
+  
+  noStroke();
+  
   if (mins == 1 && stens == 1 && frameCount/60 == 6 || AsteroidsStart == true)
   {
     AsteroidsStart = true;
@@ -148,6 +157,7 @@ void asteroids()
   {
     for(int i = 0 ; i < rock; i ++)
     {
+      fill(rFill[i]);
       ellipse(rx[i], ry[i], rSize[i], rSize[i]);
       rx[i] -= rspeed[i];
       if (rx[i] < -100)
@@ -156,6 +166,7 @@ void asteroids()
         ry[i] = random(0, height);
         rspeed[i] = random(4*stens, 5*stens);
         rSize[i] = random(50, 75);
+        
       }
     }
   }
@@ -251,33 +262,8 @@ void spaceShip()
      text(mtens, 780, 87); //mtens
    }
    
-   
-   void transitions()
-   {
-     fill (0, 0, 0, transiton1);
-     if (transition2Enabled == true){
-     fill (0, 0, 0, transiton2);
-     }
-     noStroke();
-     rect (0, 0, 1000, 1000);
-     
-     if (frameCount/60 < 7){
-     if (transiton1 > 1){
-     transiton1 -= 5;
-       }
-  }
-     
-    if (mins == 2 && stens == 4 && frameCount/60 == 5){
-    if (transiton2 < 255){
-    transition2Enabled = true;
-    transiton2 += 5;
-       }
-  }
-  
-  
-   }
-   
-   void planets()
+      
+      void planets()
    {
      
      
@@ -291,7 +277,7 @@ void spaceShip()
     pushMatrix();
     //Mars
     fill(255,0,0);
-    circle(3200-(x*2),height/2,150);
+    circle(3200-(x*2),height/2,190);
     popMatrix();
     
     pushMatrix();
@@ -321,7 +307,7 @@ void spaceShip()
     pushMatrix();
     //Pluto :)
     fill(255,229,204);
-    circle(9450-(x*2), height/2, 25);
+    circle(9450-(x*2), height/2, 50);
     popMatrix();
     
     
@@ -330,3 +316,30 @@ void spaceShip()
     x = x+1;
      
    }
+   
+   void transitions()
+   {
+     fill (0, 0, 0, transiton1);
+     if (transition2Enabled == true){
+     fill (0, 0, 0, transiton2);
+     }
+     noStroke();
+     rect (0, 0, 1000, 1000);
+     if (frameCount/60 < 7){
+     if (transiton1 > 1){
+     transiton1 -= 5;
+       }
+  }
+    if (mins == 2 && stens == 4 && frameCount/60 == 6){
+      endScreen = true;
+    if (transiton2 < 255){
+    transition2Enabled = true;
+    transiton2 += 5;
+       }
+  }
+  if (endScreen == true){
+     fill(255);
+     text("Thanks for watching!", width/2 - 400, height/2);
+     }
+   }
+   
