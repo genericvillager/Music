@@ -28,6 +28,9 @@ boolean AsteroidsEnd;
 boolean transition2Enabled;
 boolean endScreen;
 boolean engineStart;
+boolean groundMoving;
+
+float move = 0;
 
 
 float transiton1 = 600;
@@ -305,51 +308,71 @@ void spaceShip()
    
    void planets()
    {
+     if(frameCount/60 > 4.3){
+       groundMoving = true;
+     }
      
-     
+     if (groundMoving == true){
+       move -= 3;
+     }
+
     noStroke();
-    pushMatrix();
-    //Earth
-    fill(0,0,255);
-    circle(1000-(2*x),height/2,2700-(1.6*x));
-    popMatrix();
     
-    pushMatrix();
+    //Earth
+    fill(50,60,200);
+    circle(1000-(2*x),height/2,2700-(1.6*x));
+    fill(50, 150, 20);
+    strokeWeight(2);
+    stroke(50, 150, 20);
+    push();
+    translate(move, 0);
+    triangle(700, 0, 500, 1000, 800, 300);
+    triangle(500, 0, 500, 1000, 700, 0);
+    rect(0, 0, 500, 1000);
+    pop();
+    noStroke();
+    fill(50,60,200, 50);
+    circle(1000-(2*x),height/2,2850-(1.65*x));
+
+    strokeWeight(1);
+
+    
+    
     //Mars
     fill(255,0,0);
     
     circle(3200-(x*2),height/2,190);
-    popMatrix();
     
-    pushMatrix();
+    
+   
     //Jupiter
     fill(255,178,102);
     circle(4500-(x*2),height/2,1300);
-    popMatrix();
     
-    pushMatrix();
+    
+    
     //Saturn
     fill(255,229,204);
     circle(6300-(x*2),height/2,900);
-    popMatrix();
     
-    pushMatrix();
+    
+    
     //Uranus
     fill(204,229,255);
     circle(7700-(x*2), height/2, 450);
-    popMatrix();
     
-    pushMatrix();
+    
+    
     //Neptune
     fill(0,102,204);
     circle(8700-(x*2), height/2, 400);
-    popMatrix();
     
-    pushMatrix();
+    
+    
     //Pluto :)
     fill(255,229,204);
     circle(9450-(x*2), height/2, 50);
-    popMatrix();
+
     
     
     fill(255,255,255);
