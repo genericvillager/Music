@@ -69,10 +69,13 @@ float[] cx = new float[cube];
 float[] cy = new float[cube];
 float[] cspeed = new float[cube];
 float[] cSize = new float[cube];
+float[] cubeColour= new float[cube];
+float[] cubeColourChanger = new float[cube];
 
 
 void setup()
 {
+  rectMode(CORNER);
   frameRate(60);
   size(1000, 1000);
   font = loadFont("OCRAExtended-48.vlw");
@@ -99,7 +102,9 @@ void setup()
     cx[i] = random(-40, -990);
     cy[i] = random(0, height);
     cspeed[i] = random(2, 3);
-    cSize[i] = random(25, 40);
+    cSize[i] = random(30, 150);
+    cubeColour[i] = random(0, 255);
+    cubeColourChanger[i] = 0;
   }
   
   minim = new Minim(this);
@@ -128,8 +133,8 @@ void draw()
     bGround();
     planets();
     asteroids();
-    cubefloat();
     spaceShip();
+    cubefloat();
     UI();
     clock();
     transitions();
@@ -139,6 +144,7 @@ void draw()
 
 void bGround()
   {
+    rectMode(CORNER);
     background(0, 6, 13);
     strokeWeight(2);
     push();
@@ -150,7 +156,7 @@ void bGround()
     lLine= (height/3.3) + ab.get(i)*250;
     lerpedLine = lerp(lerpedLine, lLine, 0.005f);
     stroke(255);
-    line(i,lerpedLine - height/4,i,lerpedLine - height/4);
+    line(i, lerpedLine - height/4, i, lerpedLine - height/4);
   }
   pop();
   
@@ -368,48 +374,31 @@ void spaceShip()
     noStroke();
     fill(50,60,200, 50);
     circle(1000-(2*x),height/2,2850-(1.65*x));
-
     strokeWeight(1);
 
-    
-    
     //Mars
-    fill(255,0,0);
-    
+    fill(255,0,0); 
     circle(3200-(x*2),height/2,190);
-    
-    
-   
+
     //Jupiter
     fill(255,178,102);
     circle(4500-(x*2),height/2,1300);
-    
-    
-    
+
     //Saturn
     fill(255,229,204);
     circle(6300-(x*2),height/2,900);
-    
-    
-    
+
     //Uranus
     fill(204,229,255);
     circle(7700-(x*2), height/2, 450);
-    
-    
-    
+
     //Neptune
     fill(0,102,204);
     circle(8700-(x*2), height/2, 400);
     
-    
-    
     //Pluto :)
     fill(255,229,204);
     circle(9450-(x*2), height/2, 50);
-
-    
-    
     fill(255,255,255);
     stroke(1);
     x = x+1;
@@ -444,22 +433,36 @@ void spaceShip()
    
    
    void cubefloat(){
-    if (mins == 1 && stens == 5 && frameCount/60 == 0 || CubeStart == true)
+     rectMode(CENTER);
+    if (mins == 1 && stens == 4 && frameCount/60 == 8 || CubeStart == true)
   {
     CubeStart = true;
-
-  }  
+  }
   
   if( CubeStart == true) {
+   
     for(int i = 0 ; i < cube; i ++)
     {
+    if ((cubeColour[i] + cubeColourChanger[i]) > 255)
+  {
+    cubeColourChanger[i] = -cubeColour[i];
+
+  } 
+        pushMatrix();
       sum +=abs(ab.get(i));
       lerpedBuffer[i] = lerp(lerpedBuffer[i], ab.get(i), 0.5f);
-      fill(random(255), random(255), random(255));
+      noFill();
+      colorMode (HSB);
+      if(lerpedLine/303 > 1){
+      stroke(155, 255, 255);
+      }
+      else{
+        stroke(cubeColour[i] + cubeColourChanger[i], 255, 255);
+      }
+
+      stroke(cubeColour[i] + cubeColourChanger[i], 255, 255);
+      rect(cx[i], cy[i], 50* cSize[i] * lerpedBuffer[i] , 50* cSize[i] * lerpedBuffer[i]);
       
-      push();
-      rect(cx[i], cy[i], 100 + cSize[i] * lerpedBuffer[i] , 100 + cSize[i] * lerpedBuffer[i]); 
-      rotate(radians(angle));
       cx[i] -= rspeed[i];
       if (cx[i] < -100)
       {
@@ -468,8 +471,11 @@ void spaceShip()
         cspeed[i] = random(2*stens, 3*stens);
         cSize[i] = random(70, 100);
       }
-      angle += 1;
-      pop(); 
+      angle += 0.1;
+      popMatrix(); 
+      cubeColourChanger[i] += (lerpedLine/330);
+      
+
    }
   }
   
@@ -477,4 +483,6 @@ void spaceShip()
   {
     CubeStart = false;
   }
+        rectMode(CORNER);
+      colorMode (RGB);
 }
