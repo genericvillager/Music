@@ -27,6 +27,7 @@ boolean AsteroidsStart;
 boolean AsteroidsEnd;
 boolean transition2Enabled;
 boolean endScreen;
+boolean CubeStart;
 
 
 float transiton1 = 600;
@@ -52,10 +53,25 @@ Minim minim;
 AudioPlayer ap;
 AudioBuffer ab;
 
+
+float halfH;
+float colorInc;
+float lerpedAverage = 0;
+float[] lerpedBuffer = new float[1024];
+float angle;
+
+int cube = 25;
+
+float[] cx = new float[cube];
+float[] cy = new float[cube];
+float[] cspeed = new float[cube];
+float[] cSize = new float[cube];
+
+
 void setup()
 {
   frameRate(60);
-  size(1000, 1000);
+  size(1000, 1000, P3D);
   font = loadFont("OCRAExtended-48.vlw");
   textFont(font);
   for(int i = 0 ; i < star ; i ++)
@@ -75,12 +91,31 @@ void setup()
     rFill[i] = random(100, 180);
   }
   
+    for(int i = 0 ; i < cube ; i ++)
+  {
+    cx[i] = random(-40, -990);
+    cy[i] = random(0, height);
+    cspeed[i] = random(2, 3);
+    cSize[i] = random(25, 40);
+  }
   
   
   minim = new Minim(this);
   ap = minim.loadFile("MusicVisualiserAudio.mp3",1000);
   ap.play();
   ab = ap.mix;
+  
+   halfH = height/2;
+   colorInc= 255/(float)ab.size();
+
+  
+   int [] arr = {10, 15, 7, 9, 12, 17};
+   float sum = 0;
+   for(int i = 0; i< arr.length; i++)
+   {
+     sum += arr[i];
+   }
+   float average = sum / (float)arr.length;
   
 }
 
@@ -90,7 +125,9 @@ void draw()
     bGround();
     planets();
     asteroids();
+    cubefloat();
     spaceShip();
+
     UI();
     clock();
     transitions();
@@ -103,7 +140,7 @@ void bGround()
     background(0, 6, 13);
     strokeWeight(2);
     push();
-    translate(0, 870); 
+   translate(0, 870); 
   
   for(int i = 0; i < ab.size(); i++)
   {
@@ -115,7 +152,8 @@ void bGround()
   }
   pop();
   
-    noStroke();
+  
+  noStroke();
   fill(0, 6, 13);
   rect(0, 850, 350, 150); 
   rect(650, 850, 350, 150);
@@ -125,6 +163,7 @@ void bGround()
       stroke(255);
     fill(255);
     strokeWeight(1);
+
     
   
     for(int i = 0 ; i < star ; i ++)
@@ -140,7 +179,7 @@ void bGround()
       }
     }
   }
-  
+
   
 void asteroids()
 {
@@ -342,4 +381,46 @@ void spaceShip()
      text("Thanks for watching!", width/2 - 400, height/2);
      }
    }
+   
+   
+   void cubefloat(){
+    if (mins == 1 && stens == 5 && frameCount/60 == 0 || CubeStart == true)
+  {
+    CubeStart = true;
+
+  }  
+  
+  if( CubeStart == true) {
+    for(int i = 0 ; i < cube ; i ++)
+
+    {
+
+      pushMatrix();
+      stroke(255);
+      stroke(colorInc * i, 255, 255);
+      noFill();
+      translate(cx[i], cy[i]);
+      rotateY(radians(angle));
+      rotateZ(radians(angle));
+      rotateX(radians(angle));
+      box(rSize[i]);
+      cx[i] -= rspeed[i];
+      if (cx[i] < -100)
+      {
+        cx[i] = random(1100, 4100);
+        cy[i] = random(0, height);
+        cspeed[i] = random(4*stens, 5*stens);
+        cSize[i] = random(50, 75);
+      }
+      angle+=.01;
+      popMatrix(); 
+   }
+
+  } 
+  
+    if (mins == 2 && stens == 3 && frameCount/60 == 3)
+  {
+    CubeStart = false;
+  }
+}
    
