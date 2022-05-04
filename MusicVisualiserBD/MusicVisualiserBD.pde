@@ -24,6 +24,7 @@ float[] uiLinesY2 = {25, 5, 5, 25, 25, 5, 5, 25, 4, 4, 5, 5, 55, 55, 60, 60, 5, 
 PFont font;
 
 boolean AsteroidsStart;
+boolean AsteroidsEnd;
 boolean transition2Enabled;
 
 float transiton1 = 600;
@@ -143,7 +144,8 @@ void asteroids()
 
   }
   
-  if (AsteroidsStart == true){
+  if (AsteroidsStart == true)
+  {
     for(int i = 0 ; i < rock; i ++)
     {
       ellipse(rx[i], ry[i], rSize[i], rSize[i]);
@@ -159,11 +161,35 @@ void asteroids()
   }
   
   
-  if (mins == 1 && stens == 4 && frameCount/60 == 9)
+  if (mins == 1 && stens == 4 && frameCount/60 == 6)
   {
     AsteroidsStart = false;
+    AsteroidsEnd = true;
+  }
+  
+  if (AsteroidsEnd == true)
+  {
+    for (int i = 0 ; i < rock; i ++)
+    {
+      ellipse(rx[i], ry[i], rSize[i], rSize[i]);
+      rx[i] -= rspeed[i];
+      if (rx[i] < -3100)
+      {
+        rx[i] = random(100, 200);
+        ry[i] = random(0, height);
+        rspeed[i] = random(4*stens, 5*stens);
+        rSize[i] = random(50, 75);
+      }
+    }
+  }
+  
+  if (mins == 1 && stens == 4 && frameCount/60 == 8)
+  {
+    AsteroidsEnd = false;
   }
 }
+
+
 
 void spaceShip()
   {
