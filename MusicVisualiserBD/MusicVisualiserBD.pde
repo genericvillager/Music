@@ -458,7 +458,7 @@ void spaceShip()
       fill(random(255), random(255), random(255));
       
       push();
-      rect(cx[i], cy[i], 50 + cSize[i] * lerpedBuffer[i] , 50+ cSize[i] * lerpedBuffer[i]); 
+      rect(cx[i], cy[i], 100 + cSize[i] * lerpedBuffer[i] , 100 + cSize[i] * lerpedBuffer[i]); 
       rotate(radians(angle));
       cx[i] -= rspeed[i];
       if (cx[i] < -100)
