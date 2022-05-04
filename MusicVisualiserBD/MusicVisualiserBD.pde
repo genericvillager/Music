@@ -29,6 +29,7 @@ boolean transition2Enabled;
 boolean endScreen;
 boolean engineStart;
 boolean groundMoving;
+boolean CubeStart;
 
 float move = 0;
 
@@ -56,6 +57,20 @@ Minim minim;
 AudioPlayer ap;
 AudioBuffer ab;
 
+float halfH;
+float colorInc;
+float lerpedAverage = 0;
+float[] lerpedBuffer = new float[1024];
+float angle = 0;
+
+int cube = 25;
+
+float[] cx = new float[cube];
+float[] cy = new float[cube];
+float[] cspeed = new float[cube];
+float[] cSize = new float[cube];
+
+
 void setup()
 {
   frameRate(60);
@@ -79,14 +94,33 @@ void setup()
     rFill[i] = random(100, 180);
   }
   
-  
+  for(int i = 0 ; i < cube ; i ++)
+  {
+    cx[i] = random(-40, -990);
+    cy[i] = random(0, height);
+    cspeed[i] = random(2, 3);
+    cSize[i] = random(25, 40);
+  }
   
   minim = new Minim(this);
   ap = minim.loadFile("MusicVisualiserAudio.mp3",1000);
   ap.play();
   ab = ap.mix;
   
+   halfH = height/2;
+   colorInc= 255/(float)ab.size();
+
+  
+   int [] arr = {10, 15, 7, 9, 12, 17};
+   float sum = 0;
+   for(int i = 0; i< arr.length; i++)
+   {
+     sum += arr[i];
+   }
+   float average = sum / (float)arr.length;
 }
+  
+
 
 void draw()
 {
@@ -94,6 +128,7 @@ void draw()
     bGround();
     planets();
     asteroids();
+    cubefloat();
     spaceShip();
     UI();
     clock();
@@ -406,3 +441,40 @@ void spaceShip()
      text("Thanks for watching!", width/2 - 400, height/2);
      }
    }
+   
+   
+   void cubefloat(){
+    if (mins == 1 && stens == 5 && frameCount/60 == 0 || CubeStart == true)
+  {
+    CubeStart = true;
+
+  }  
+  
+  if( CubeStart == true) {
+    for(int i = 0 ; i < cube; i ++)
+    {
+      sum +=abs(ab.get(i));
+      lerpedBuffer[i] = lerp(lerpedBuffer[i], ab.get(i), 0.5f);
+      fill(random(255), random(255), random(255));
+      
+      push();
+      rect(cx[i], cy[i], 50 + cSize[i] * lerpedBuffer[i] , 50+ cSize[i] * lerpedBuffer[i]); 
+      rotate(radians(angle));
+      cx[i] -= rspeed[i];
+      if (cx[i] < -100)
+      {
+        cx[i] = random(1100, 4100);
+        cy[i] = random(0, height);
+        cspeed[i] = random(2*stens, 3*stens);
+        cSize[i] = random(70, 100);
+      }
+      angle += 1;
+      pop(); 
+   }
+  }
+  
+    if (mins == 2 && stens == 3 && frameCount/60 == 3)
+  {
+    CubeStart = false;
+  }
+}
