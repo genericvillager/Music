@@ -1,6 +1,36 @@
 Team Members: Stephen Rockett (C21354883), Seán Dunne (C21310823), Justin Rhay Samson (C21390436), and Erik Azev (C21740679).
 
 We aimed to have a continuous theme of space.
-The music was compiled from Gustav Holst’s ‘The Planets’,
+- The music was compiled from Gustav Holst’s ‘The Planets’,
 James Rutland’s ‘Dystopia Infiltration - Futuristic Orchestral Music’,
 and snippets from space launch announcements.
+
+What your assignment does:
+- The spaceship flames, spaceship, ship UI (bar at bottom of screen),
+and rectangles (at the end) all react to the music.
+
+- The visual accompanying the audio is to complement the theme of the music.
+- The visual is set in space and shows the spaceship from take-off,
+past the planet of our solar system, through an asteroid belt,
+and finally through an alien area of strangely reactive squares.
+
+What the controls are
+- As it is a music visualiser, there are no controls.
+
+How to make it run
+- Simply press play in processing.
+- Minim may need to be downloaded.
+
+A list of the stuff you are most proud of. This will help me to grade the assignments.
+- Creating a timer that counts up to 99 minutes.
+- Creating the asteroid code.
+- Creating audio-reactive squares with colour that is also affected by the audio.
+
+What each team member did
+- Concept Creation - Stephen, Sean and Justin.
+- UI elements and background - Stephen.
+- Planet Code and design - Erik.
+- Spaceship and Earth design - Stephen.
+- Asteroid Code - Sean.
+- Cube Design - Justin and Stephen.
+- Formatting - Stephen.
